@@ -2,7 +2,8 @@
 
 module.exports = async (req, res) => {
   try {
-    if (req.query.secret !== "fubar") throw new Error("Missing auth param");
+    const ADMIN_SECRET = process.env.ADMIN_SECRET || 'superSecretKey'
+    if (req.query.secret !== ) throw new Error("Missing auth param");
 
     // const ENDPOINT_HEADER =
     //   req.headers["x-vercel-deployment-url"] &&
