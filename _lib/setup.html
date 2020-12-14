@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        font-size: 14px;
+
+        /* Font Smoothing */
+        font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings: "kern" 1, "dlig" 1, "opbd" 1, "ss01" 1;
+        text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-r from-purple-400 to-purple-600">
+    <div class="relative py-3 my-20 mx-auto max-w-3xl">
+      <h1 class="mb-12 text-5xl font-bold tracking-tight text-white">
+        Tracking setup
+      </h1>
+      <!-- <div
+        class="absolute inset-0 transform -skew-y-6 shadow-lg bg-gradient-to-r from-purple-400 to-purple-600 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
+      ></div> -->
+      <div
+      class="relative px-4 py-10 bg-white mb-6 shadow-2xl sm:rounded-3xl sm:p-12"
+    >
+      <div class="max-w-3xl mx-auto">
+        <div>
+          <h2 class="mb-2 text-3xl font-bold tracking-tight text-neutral-700">
+            Frontend tracking
+          </h2>
+          <p class="mb-6 text-lg leading-7 text-gray-600">
+            Paste into the bottom of your page as close to the closing
+            <code
+              class="inline-block px-1 font-semibold text-gray-600 bg-gray-100 rounded"
+              >&lt;/body&gt;</code
+            >
+            tag as possible or into your Google Tag Manager account.
+          </p>
+          <div>
+            <input
+              type="text"
+              readonly="readonly"
+              class="mb-4 font-medium text-gray-600 block w-full shadow-sm text-base rounded-md text-gray-700 transition-all ease-in-out duration-200 border-gray-200 outline-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 bg-gray-50 text-md"
+            />
+            <button
+              class="relative inline-flex items-center justify-center font-semibold transition duration-150 ease-in-out border rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 text-base leading-6 text-white bg-green-500 border-transparent shadow-sm hover:bg-green-400 focus:ring-green-400 active:bg-green-600"
+            >
+              <span class="inline-flex items-center"
+                ><div>
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="ml-2">Copy snippet</div></span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="relative px-4 py-10 bg-white shadow-2xl sm:rounded-3xl sm:p-12"
+    >
+      <div class="max-w-3xl mx-auto">
+        <div>
+          <h2 class="mb-2 text-3xl font-bold tracking-tight text-neutral-700">
+            Stripe webhooks
+          </h2>
+          <p class="mb-6 text-lg leading-7 text-gray-600">
+            Paste into the bottom of your page as close to the closing
+            <code
+              class="inline-block px-1 font-semibold text-gray-600 bg-gray-100 rounded"
+              >&lt;/body&gt;</code
+            >
+            tag as possible or into your Google Tag Manager account.
+          </p>
+          <div>
+            <input
+              type="text"
+              readonly="readonly"
+              class="mb-4 font-medium text-gray-600 block w-full shadow-sm text-base rounded-md text-gray-700 transition-all ease-in-out duration-200 border-gray-200 outline-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 bg-gray-50 text-md"
+            />
+            <button
+              class="relative inline-flex items-center justify-center font-semibold transition duration-150 ease-in-out border rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 text-base leading-6 text-white bg-blue-500 border-transparent shadow-sm hover:bg-blue-400 focus:ring-blue-400 active:bg-blue-600"
+            >
+              <span class="inline-flex items-center"
+                ><div>
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+                <div class="ml-2">Copy webhook endpoint</div></span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
