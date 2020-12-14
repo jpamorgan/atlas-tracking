@@ -50,7 +50,6 @@ module.exports = async (req, res) => {
           );
         }
     }
-    const promises = [];
 
     const results = await Promise.allSettled(promises);
 
