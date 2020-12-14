@@ -1,4 +1,4 @@
-# Event tracker
+# Atlas tracking
 
 Track events from:
 
