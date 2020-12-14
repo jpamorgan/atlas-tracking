@@ -40,7 +40,6 @@ function track(
   return request.post(
     `https://graph.facebook.com/v9.0/${pixelId}/events?access_token=${accessToken}`,
     {
-      test_event_code: "TEST9350",
       data: [
         {
           event_name: eventName,
