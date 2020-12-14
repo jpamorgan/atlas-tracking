@@ -17,6 +17,21 @@ module.exports = async (req, res) => {
     const userAgent = req.headers["user-agent"];
     const ua = parser(userAgent);
 
+    function getUrlParams(url) {
+      const search = url.split("?").length > 1 ? url.split("?")[1] : "";
+      return search
+        ? JSON.parse(
+            '{"' +
+              decodeURI(search)
+                .replace(/"/g, '\\"')
+                .replace(/&/g, '","')
+                .replace(/=/g, '":"') +
+              '"}'
+          )
+        : {};
+    }
+    var urlParams = getUrlParams();
+
     const promises = [];
 
     if (process.env.AMPLITUDE_API_KEY) {
@@ -49,7 +64,10 @@ module.exports = async (req, res) => {
             ua,
           },
           traits,
-          props
+          {
+            ...props,
+            ...urlParams,
+          }
         )
       );
     } else console.log("Missing amplitude api key");
