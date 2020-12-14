@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
       promises.push(
         amplitude.track(
           process.env.AMPLITUDE_API_KEY,
-          event,
+          event === "pageview" ? "pageLoad" : event,
           {
             url,
             anonymousId,
