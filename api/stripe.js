@@ -16,16 +16,6 @@ function mapToStandardEvent(type) {
 
 function getStandardEventProps(type, data) {
   switch (type) {
-    case "Subscribe":
-      const cents = _get(data, "object.plan.amount");
-      const value = cents ? cents / 100 : null;
-      const currency = _get(data, "object.currency")
-        ? _get(data, "object.plan.currency").toUpperCase()
-        : null;
-      return {
-        currency,
-        value,
-      };
     case "Purchase":
       const cents = _get(data, "object.amount_paid");
       const value = cents ? cents / 100 : null;
