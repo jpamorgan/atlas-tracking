@@ -21,6 +21,15 @@ const post = (url, data, headers = {}) => {
   });
 };
 
+const get = (url, headers = {}) => {
+  return axios({
+    method: "get",
+    url,
+    headers,
+  });
+};
+
 module.exports = {
   post,
+  get,
 };
