@@ -1,5 +1,7 @@
 # Atlas tracking
 
+Reliably track your events to Amplitude & Facebook Conversions API.
+
 Sources:
 
 - your website or web application
