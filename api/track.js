@@ -18,7 +18,7 @@ module.exports = cors(async (req, res) => {
     const userAgent = req.headers["user-agent"];
     const ua = parser(userAgent);
 
-    function getUrlParams(url) {
+    function getUrlParams(url = "") {
       const search = url.split("?").length > 1 ? url.split("?")[1] : "";
       return search
         ? JSON.parse(
@@ -31,7 +31,7 @@ module.exports = cors(async (req, res) => {
           )
         : {};
     }
-    var urlParams = getUrlParams();
+    var urlParams = getUrlParams(url);
 
     const promises = [];
 
