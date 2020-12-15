@@ -95,10 +95,9 @@ module.exports = cors(async (req, res) => {
     const results = await Promise.allSettled(promises);
 
     res.json({
-      success: true,
       amp: process.env.AMPLITUDE_API_KEY ? true : "Missing amp api key",
-      fb: process.env.FACEBOOK_ACCESS_TOKEN ? true : "Missing fb token",
-      fbPixel: process.env.FACEBOOK_PIXEL_ID ? true : "Missing fb pixel",
+      fbt: process.env.FACEBOOK_ACCESS_TOKEN ? true : "Missing fb token",
+      fbp: process.env.FACEBOOK_PIXEL_ID ? true : "Missing fb pixel",
       results,
     });
   } catch (err) {
