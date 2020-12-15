@@ -84,6 +84,7 @@ try {
     url: window.location.href,
     anonymousId,
     trackEmails: true,
+    trackPageviews: true,
   };
 
   window.atlas.track =
@@ -121,6 +122,8 @@ try {
     inputUtils.watchForEmail(window.document, (email) =>
       window.atlas.identify({ email })
     );
+
+  if (window.atlas.context.trackPageviews) window.atlas.track("pageview");
 } catch (err) {
   console.log("Atlas error", err);
 }
