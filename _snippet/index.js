@@ -92,7 +92,7 @@ try {
     function (event, props) {
       let cachedValues = getCachedValues(
         {},
-        { ...window.atlas.context, ...props }
+        { ...window.atlas.context, props }
       );
       return trackEvent({ ...cachedValues.context, event });
     };
