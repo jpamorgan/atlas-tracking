@@ -1,8 +1,9 @@
 const amplitude = require("../_lib/amplitude");
 const facebook = require("../_lib/facebook");
 const parser = require("ua-parser-js");
+const cors = require("../_lib/cors");
 
-module.exports = async (req, res) => {
+module.exports = cors(async (req, res) => {
   try {
     // if (req.headers.secret_key !== "fubar")
     //   throw new Error("Missing auth header");
@@ -107,4 +108,4 @@ module.exports = async (req, res) => {
       error: err,
     });
   }
-};
+});
