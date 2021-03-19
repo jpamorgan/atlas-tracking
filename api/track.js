@@ -1,5 +1,7 @@
 const amplitude = require("../_lib/amplitude");
+const experiences = require("../_lib/experiences");
 const facebook = require("../_lib/facebook");
+const userDotCom = require("../_lib/userDotCom");
 const parser = require("ua-parser-js");
 const cors = require("../_lib/cors");
 
@@ -33,26 +35,10 @@ module.exports = cors(async (req, res) => {
     }
     var urlParams = getUrlParams(url);
 
-    const promises = [];
+    const work = [];
 
     if (process.env.AMPLITUDE_API_KEY) {
-      // if (event === "identify")
-      //   promises.push(
-      //     amplitude.identify(
-      //       process.env.AMPLITUDE_API_KEY,
-      //       {
-      //         url,
-      //         anonymousId,
-      //         email,
-      //         userId,
-      //         ip,
-      //         ua,
-      //       },
-      //       traits
-      //     )
-      //   );
-      // else
-      promises.push(
+      work.push(
         amplitude.track(
           process.env.AMPLITUDE_API_KEY,
           event === "pageview" ? "pageLoad" : event,
@@ -64,7 +50,10 @@ module.exports = cors(async (req, res) => {
             ip,
             ua,
           },
-          traits,
+          {
+            ...traits,
+            ...urlParams,
+          },
           {
             ...props,
             ...urlParams,
@@ -74,7 +63,7 @@ module.exports = cors(async (req, res) => {
     } else console.log("Missing amplitude api key");
 
     if (process.env.FACEBOOK_PIXEL_ID && process.env.FACEBOOK_ACCESS_TOKEN) {
-      promises.push(
+      work.push(
         facebook.track(
           process.env.FACEBOOK_PIXEL_ID,
           process.env.FACEBOOK_ACCESS_TOKEN,
@@ -91,13 +80,63 @@ module.exports = cors(async (req, res) => {
           props
         )
       );
+    } else console.log("Missing Facebook keys");
+
+    if (process.env.EXPERIENCES_WORKSPACE_ID) {
+      work.push(
+        experiences.track(
+          process.env.EXPERIENCES_WORKSPACE_ID,
+          event === "pageview" ? "pageLoad" : event,
+          {
+            url,
+            anonymousId,
+            email,
+            userId,
+            ip,
+            ua,
+          },
+          {
+            ...traits,
+            ...urlParams,
+          },
+          {
+            ...props,
+            ...urlParams,
+          }
+        )
+      );
+    } else console.log("Missing experiences workspaceId");
+
+    if (process.env.USER_DOT_COM_API_KEY) {
+      if (event === "identify" && userId)
+        work.push(
+          userDotCom.identify(process.env.USER_DOT_COM_API_KEY, userId, traits)
+        );
+      else
+        work.push(
+          userDotCom.track(
+            process.env.USER_DOT_COM_API_KEY,
+            event,
+            {
+              url,
+              anonymousId,
+              email,
+              userId,
+              ip,
+              userAgent,
+            },
+            props
+          )
+        );
     }
-    const results = await Promise.allSettled(promises);
+
+    const results = await Promise.allSettled(work);
 
     res.json({
       amp: process.env.AMPLITUDE_API_KEY ? true : "Missing amp api key",
       fbt: process.env.FACEBOOK_ACCESS_TOKEN ? true : "Missing fb token",
       fbp: process.env.FACEBOOK_PIXEL_ID ? true : "Missing fb pixel",
+      user: process.env.USER_DOT_COM_API_KEY ? true : "Missing user api key",
       results,
     });
   } catch (err) {

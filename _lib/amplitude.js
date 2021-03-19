@@ -2,6 +2,7 @@
 const uuid = require("./uuid");
 const _get = require("lodash/get");
 const request = require("./request");
+const urlTools = require("./urlTools");
 
 function track(apiKey, eventName, context = {}, traits = {}, props = {}) {
   console.log("amplitude.track:", eventName);
@@ -15,7 +16,11 @@ function track(apiKey, eventName, context = {}, traits = {}, props = {}) {
           device_id: context.anonymousId,
           event_type: eventName,
           time: new Date().getTime(),
-          event_properties: props,
+          event_properties: {
+            ...props,
+            ...urlTools.getParts(context.url),
+            url: context.url,
+          },
           user_properties: traits,
           os_name: _get(context, "ua.os.name"),
           os_version: _get(context, "ua.os.version"),

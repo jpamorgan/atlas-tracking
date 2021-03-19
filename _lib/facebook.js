@@ -1,4 +1,4 @@
-// Docs: https://help.amplitude.com/hc/en-us/articles/360032842391-HTTP-API-V2
+// Docs: https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters#external-id
 const uuid = require("./uuid");
 const _get = require("lodash/get");
 const request = require("./request");
@@ -32,7 +32,7 @@ function track(
   pixelId,
   accessToken,
   eventName,
-  context,
+  context = {},
   traits = {},
   props = {}
 ) {
@@ -44,7 +44,7 @@ function track(
         {
           event_name: eventName,
           event_time: Math.round(Date.now() / 1000),
-          event_source_url: context.url,
+          event_source_url: context.url || "https://app.conversion.ai/",
           event_id: uuid.raw(),
           user_data: mapUserData(traits, context),
           custom_data: props,

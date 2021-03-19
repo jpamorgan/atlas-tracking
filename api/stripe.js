@@ -1,4 +1,5 @@
 const amplitude = require("../_lib/amplitude");
+const experiences = require("../_lib/experiences");
 const facebook = require("../_lib/facebook");
 const stripe = require("../_lib/stripe");
 const _get = require("lodash/get");
@@ -49,21 +50,35 @@ module.exports = async (req, res) => {
       email = _get(data, "object.email");
     } else if (type === "customer.subscription.created")
       customerId = _get(data, "object.customer");
+    else if (type === "customer.subscription.deleted")
+      customerId = _get(data, "object.customer");
     else if (type === "invoice.payment_failed")
       customerId = _get(data, "object.customer");
     else if (type === "invoice.payment_succeeded") {
       customerId = _get(data, "object.customer");
     } else console.log("Event type not supported");
 
-    email = email || (await stripe.getCustomerEmail(customerId));
+    const customerMeta =
+      (customerId && (await stripe.getCustomerMeta(customerId))) || {};
+    email = email || customerMeta.email;
 
     if (email && customerId) {
       if (process.env.AMPLITUDE_API_KEY) {
         promises.push(
-          amplitude.track(process.env.AMPLITUDE_API_KEY, `Stripe ${type}`, {
-            email,
-            anonymousId: customerId,
-          })
+          amplitude.track(
+            process.env.AMPLITUDE_API_KEY,
+            mapToStandardEvent(type),
+            {
+              email,
+              anonymousId: customerId,
+              workspaceId: customerMeta.workspaceId,
+            },
+            {
+              email,
+              anonymousId: customerId,
+              workspaceId: customerMeta.workspaceId,
+            }
+          )
         );
       } else console.log("Missing amplitude api key");
 
@@ -77,11 +92,33 @@ module.exports = async (req, res) => {
               email,
               anonymousId: customerId,
             },
-            {},
+            {
+              email,
+              anonymousId: customerId,
+            },
             getStandardEventProps(mapToStandardEvent(type), data)
           )
         );
       }
+
+      if (process.env.EXPERIENCES_WORKSPACE_ID) {
+        promises.push(
+          experiences.track(
+            process.env.EXPERIENCES_WORKSPACE_ID,
+            mapToStandardEvent(type),
+            {
+              email,
+              anonymousId: customerId,
+              workspaceId: customerMeta.workspaceId,
+            },
+            {
+              email,
+              anonymousId: customerId,
+              workspaceId: customerMeta.workspaceId,
+            }
+          )
+        );
+      } else console.log("Missing experiences workspaceId");
     } else {
       console.error("Missing email and/or customerId");
     }

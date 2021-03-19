@@ -15,6 +15,9 @@ module.exports = {
     // new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       __EVENTS_ENDPOINT__: JSON.stringify(ENDPOINT_URL),
+      __AUTO_TRACK_PAGEVIEWS__: JSON.stringify(
+        process.env.AUTO_TRACK_PAGEVIEWS
+      ),
     }),
   ],
   module: {

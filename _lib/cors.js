@@ -4,9 +4,11 @@ module.exports = (fn) => async (req, res) => {
   let whitelistMatch = false;
   if (whitelist) {
     const url = req.headers["referer"];
-    whitelist.split(",").map((d) => {
-      if (url.indexOf(d) !== -1) whitelistMatch = true;
-    });
+    if (url)
+      whitelist.split(",").map((d) => {
+        if (url.indexOf(d) !== -1) whitelistMatch = true;
+      });
+    else whitelistMatch = false;
   }
   if (!whitelist || whitelistMatch)
     res.setHeader("Access-Control-Allow-Origin", "*");

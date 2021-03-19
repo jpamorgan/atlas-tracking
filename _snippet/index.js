@@ -84,46 +84,42 @@ try {
     url: window.location.href,
     anonymousId,
     trackEmails: true,
-    trackPageviews: true,
+    autoTrackPageviews: __AUTO_TRACK_PAGEVIEWS__ === "true",
   };
 
-  window.atlas.track =
-    window.atlas.track ||
-    function (event, props) {
-      let cachedValues = getCachedValues(
-        {},
-        { ...window.atlas.context, props }
-      );
-      return trackEvent({ ...cachedValues.context, event });
-    };
-  window.atlas.identify =
-    window.atlas.identify ||
-    function (traits) {
-      let cachedValues = getCachedValues(traits, window.atlas.context);
+  window.atlas.track = function (event, props) {
+    window.atlas.context.url = window.location.href;
+    let cachedValues = getCachedValues({}, { ...window.atlas.context, props });
+    return trackEvent({ ...cachedValues.context, event });
+  };
 
-      setObject(
-        "traits",
-        {
-          ...cachedValues.traits,
-          email: cachedValues.context.email,
-          userId: cachedValues.context.userId,
-        },
-        STORAGE_PREFIX
-      );
+  window.atlas.identify = function (traits) {
+    window.atlas.context.url = window.location.href;
+    let cachedValues = getCachedValues(traits, window.atlas.context);
 
-      return trackEvent({
-        ...cachedValues.context,
-        traits: cachedValues.traits,
-        event: "identify",
-      });
-    };
+    setObject(
+      "traits",
+      {
+        ...cachedValues.traits,
+        email: cachedValues.context.email,
+        userId: cachedValues.context.userId,
+      },
+      STORAGE_PREFIX
+    );
+
+    return trackEvent({
+      ...cachedValues.context,
+      traits: cachedValues.traits,
+      event: "identify",
+    });
+  };
 
   if (window.atlas.context.trackEmails)
     inputUtils.watchForEmail(window.document, (email) =>
       window.atlas.identify({ email })
     );
 
-  if (window.atlas.context.trackPageviews) window.atlas.track("pageview");
+  if (window.atlas.context.autoTrackPageviews) window.atlas.track("pageview");
 } catch (err) {
   console.log("Atlas error", err);
 }
