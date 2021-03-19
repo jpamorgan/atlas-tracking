@@ -13,7 +13,7 @@ function track(apiKey, eventName, context = {}, traits = {}, props = {}) {
       events: [
         {
           user_id: context.userId,
-          device_id: context.anonymousId,
+          device_id: traits.deviceId || context.anonymousId,
           event_type: eventName,
           time: new Date().getTime(),
           event_properties: {
@@ -50,7 +50,7 @@ function identify(apiKey, context = {}, traits = {}) {
       identification: {
         event_type: "identify",
         user_id: context.userId,
-        device_id: context.anonymousId,
+        device_id: traits.deviceId || context.anonymousId,
         user_properties: traits,
         os_name: _get(context, "ua.os.name"),
         os_version: _get(context, "ua.os.version"),
